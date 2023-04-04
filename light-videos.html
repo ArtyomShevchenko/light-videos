@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="discription"
+      content="Додавання відео з youtube на сторінку з меньшим трафіком"
+    />
+    <title>Light videos on page</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      iframe {
+        width: 100%;
+        height: 100%;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .video-block {
+        flex: 1 1 300px;
+      }
+
+      .video-block__inner {
+        width: 100%;
+        height: 100%;
+        aspect-ratio: 16/9;
+        position: relative;
+      }
+
+      .video-block__inner button {
+        position: absolute;
+        inset: 0;
+        z-index: 10;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+      }
+
+      .video-block__inner button::before {
+        content: "";
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        clip-path: polygon(0 0, 0 100%, 100% 50%);
+        background-color: brown;
+        transition: all 0.2s;
+      }
+
+      .video-block__inner button:hover::before {
+        background-color: red;
+        width: 50px;
+        height: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="wrapper">
+        <!-- <div class="row" id="origin">
+          <div class="video-block">
+            <div class="video-block__inner">
+              <iframe
+                src="https://www.youtube.com/embed/op2JkITZKd4"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
+          <div class="video-block">
+            <div class="video-block__inner">
+              <iframe
+                src="https://www.youtube.com/embed/6ZIYUTfuA7g"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
+          <div class="video-block">
+            <div class="video-block__inner">
+              <iframe
+                src="https://www.youtube.com/embed/P_xi_vOJvqc"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
+        </div> -->
+
+        <div class="row" id="minimal">
+          <div class="video-block">
+            <div class="video-block__inner">
+              <picture>
+                <source
+                  src="https://img.youtube.com/vi_webp/op2JkITZKd4/maxresdefault.webp"
+                  type="image/webp"
+                />
+                <img
+                  src="https://img.youtube.com/vi/op2JkITZKd4/maxresdefault.jpg"
+                  alt="Video"
+                  data-video-id="op2JkITZKd4"
+                />
+              </picture>
+              <button></button>
+            </div>
+          </div>
+          <div class="video-block">
+            <div class="video-block__inner">
+              <picture>
+                <source
+                  src="https://img.youtube.com/vi_webp/6ZIYUTfuA7g/maxresdefault.webp"
+                  type="image/webp"
+                />
+                <img
+                  src="https://img.youtube.com/vi/6ZIYUTfuA7g/maxresdefault.jpg"
+                  alt="Video"
+                  data-video-id="6ZIYUTfuA7g"
+                />
+              </picture>
+              <button></button>
+            </div>
+          </div>
+          <div class="video-block">
+            <div class="video-block__inner">
+              <picture>
+                <source
+                  src="https://img.youtube.com/vi_webp/P_xi_vOJvqc/maxresdefault.webp"
+                  type="image/webp"
+                />
+                <img
+                  src="https://img.youtube.com/vi/P_xi_vOJvqc/maxresdefault.jpg"
+                  alt="Video"
+                  data-video-id="P_xi_vOJvqc"
+                />
+              </picture>
+              <button></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const initVideo = (selector) => {
+        const videos = document.querySelectorAll(selector);
+
+        if (videos.length) {
+          videos.forEach((video) => {
+            videoGenerate(video);
+          });
+        }
+      };
+
+      const videoGenerate = (video) => {
+        const btn = video.querySelector("button");
+        const videoId = video.querySelector("img").dataset.videoId;
+        const container = video.querySelector(".video-block__inner");
+
+        btn.addEventListener("click", () => {
+          container.innerHTML = "";
+          container.appendChild(iframeGenerate(videoId));
+        });
+      };
+
+      const iframeGenerate = (videoId) => {
+        const iframe = document.createElement("iframe");
+        const src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+
+        iframe.setAttribute("src", src);
+        iframe.setAttribute("title", "YouTube video player");
+        iframe.setAttribute("frameborder", "0");
+        iframe.setAttribute("allow", "accelerometer; autoplay");
+        iframe.setAttribute("controls", "0");
+        iframe.setAttribute("controls", "0");
+
+        console.log(videoId);
+
+        return iframe;
+      };
+
+      initVideo(".video-block");
+    </script>
+  </body>
+</html>
